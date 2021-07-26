@@ -28,6 +28,7 @@ const whiteList = [
   'https://appboy-images.com',
   'https://unpkg.com',
   'https://*.hotjar.com',
+  'https://*.hotjar.io',
   'wss://*.hotjar.com',
 ];
 
