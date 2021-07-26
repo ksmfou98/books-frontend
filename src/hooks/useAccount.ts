@@ -17,6 +17,11 @@ export async function checkLoggedIn(cancel: CancelTokenSource) {
       baseURL: process.env.NEXT_STATIC_ACCOUNT_API,
       withCredentials: true,
       cancelToken: cancel.token,
+      headers: {
+        'Cache-Control': 'no-cache',
+        Pragma: 'no-cache',
+        Expires: '0',
+      },
     });
     return data.result;
   } catch (err) {
