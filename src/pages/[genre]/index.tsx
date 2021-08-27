@@ -211,7 +211,7 @@ export const Home: NextPage<HomeProps> = (props) => {
       <GenreTab currentGenre={genre} />
       {branches && branches.map((section, index) => (
         <React.Fragment key={section.slug}>
-          <HomeSectionRenderer section={section} order={index} genre={genre} />
+          <HomeSectionRenderer section={section} order={index} genre={genre} totalSectionLength={branches.length} />
         </React.Fragment>
       ))}
       <div

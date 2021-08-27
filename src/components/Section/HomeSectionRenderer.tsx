@@ -10,11 +10,13 @@ import { MultipleLineBooks } from 'src/components/MultipleLineBooks/MultipleLine
 import UserPreferredSection from 'src/components/Section/UserPreferredSection';
 import AiRecommendationSection from 'src/components/Section/AIRecommendationSection';
 import TopBannerCarousel from 'src/components/TopBanner';
+import { FreeWebtoonSection } from '../FreeWebtoonSection/FreeWebtoonSection';
 
 interface HomeSectionRendererProps {
   section: Section;
   genre: string;
   order: number;
+  totalSectionLength: number;
 }
 
 function HomeSectionRenderer(props: HomeSectionRendererProps) {
@@ -26,6 +28,8 @@ function HomeSectionRenderer(props: HomeSectionRendererProps) {
       extra,
     },
     genre,
+    order,
+    totalSectionLength,
   } = props;
 
   if (!section.items) {
@@ -40,139 +44,160 @@ function HomeSectionRenderer(props: HomeSectionRendererProps) {
   if (section.items.length === 0 && extra && !extra.is_placeholder) {
     return null;
   }
-  switch (section.type) {
-    case 'HomeCarouselBanner':
-      return <TopBannerCarousel banners={section.items} slug={slug} />;
-    case 'HomeEventBanner':
-    case 'HomeEventBannerBottom':
-    case 'HomeEventBannerTop':
-    case 'HomeEventBannerMiddle':
-      return <EventBanner items={section.items} genre={genre} slug={slug} />;
-    case 'ReadingBooksRanking':
-      return (
-        <RankingBookList
-          slug={slug}
-          items={section.items}
-          type="small"
-          genre={genre}
-          title={title}
-          showSomeDeal
-          showTimer
-          extra={extra}
-        />
-      );
-    case 'HotRelease': {
-      return (
-        <RecommendedBook
-          slug={slug}
-          title={title}
-          items={section.items}
-          type={section.type}
-          genre={genre}
-          theme="dark"
-        />
-      );
+
+  const renderFreeWebtoon = () => {
+    if (
+      genre === 'webtoon'
+      && ((totalSectionLength >= 5 && order === 4)
+        || (totalSectionLength < 5 && section.slug === 'home-webtoon-daily-bestseller'))
+    ) {
+      return <FreeWebtoonSection />;
     }
-    case 'TodayRecommendation': {
-      return (
-        <RecommendedBook
-          slug={slug}
-          title={title}
-          items={section.items}
-          type={section.type}
-          genre={genre}
-          theme={['bl', 'bl-novel', 'bl-comics', 'romance', 'fantasy'].includes(genre) ? 'dark' : 'white'}
-        />
-      );
+    return <></>;
+  };
+
+  const renderSection = () => {
+    switch (section.type) {
+      case 'HomeCarouselBanner':
+        return <TopBannerCarousel banners={section.items} slug={slug} />;
+      case 'HomeEventBanner':
+      case 'HomeEventBannerBottom':
+      case 'HomeEventBannerTop':
+      case 'HomeEventBannerMiddle':
+        return <EventBanner items={section.items} genre={genre} slug={slug} />;
+      case 'ReadingBooksRanking':
+        return (
+          <RankingBookList
+            slug={slug}
+            items={section.items}
+            type="small"
+            genre={genre}
+            title={title}
+            showSomeDeal
+            showTimer
+            extra={extra}
+          />
+        );
+      case 'HotRelease': {
+        return (
+          <RecommendedBook
+            slug={slug}
+            title={title}
+            items={section.items}
+            type={section.type}
+            genre={genre}
+            theme="dark"
+          />
+        );
+      }
+      case 'TodayRecommendation': {
+        return (
+          <RecommendedBook
+            slug={slug}
+            title={title}
+            items={section.items}
+            type={section.type}
+            genre={genre}
+            theme={['bl', 'bl-novel', 'bl-comics', 'romance', 'fantasy'].includes(genre) ? 'dark' : 'white'}
+          />
+        );
+      }
+      case 'HomeMdSelection': {
+        return (
+          <>
+            {section.items.map((item) => (
+              <SelectionBook
+                slug={`${slug}-${item.id}`}
+                items={item.books}
+                title={item.title}
+                genre={genre}
+                key={item.id}
+                selectionId={item.id}
+                type={section.type}
+              />
+            ))}
+          </>
+        );
+      }
+      case 'RecommendedNewBook':
+      case 'WaitFree':
+      case 'TodayNewBook':
+      case 'NewSerialBook': {
+        return (
+          <SelectionBook
+            slug={slug}
+            items={section.items}
+            title={title}
+            genre={genre}
+            type={section.type}
+            extra={extra}
+          />
+        );
+      }
+      case 'BestSeller':
+        return (
+          <RankingBookList
+            slug={slug}
+            items={section.items}
+            title={title}
+            genre={genre}
+            type="big"
+            showTimer={false}
+            extra={extra}
+          />
+        );
+      case 'HomeQuickMenu': {
+        return <QuickMenuList items={section.items} />;
+      }
+      case 'UserPreferredBestseller': {
+        return (
+          <UserPreferredSection
+            slug={slug}
+            items={section.items}
+            genre={genre}
+            type={section.type}
+          />
+        );
+      }
+      case 'AiRecommendation': {
+        return (
+          <AiRecommendationSection
+            slug={slug}
+            genre={genre}
+            type={section.type}
+            extra={extra}
+          />
+        );
+      }
+      case 'KeywordFinder': {
+        return (
+          <HomeKeywordFinderSection
+            genre={genre}
+            items={section.items}
+          />
+        );
+      }
+      case 'RecommendedBook': {
+        return (
+          <MultipleLineBooks
+            slug={slug}
+            genre={genre}
+            title={title}
+            items={section.items}
+          />
+        );
+      }
+      default:
+        return null;
     }
-    case 'HomeMdSelection': {
-      return (
-        <>
-          {section.items.map((item) => (
-            <SelectionBook
-              slug={`${slug}-${item.id}`}
-              items={item.books}
-              title={item.title}
-              genre={genre}
-              key={item.id}
-              selectionId={item.id}
-              type={section.type}
-            />
-          ))}
-        </>
-      );
-    }
-    case 'RecommendedNewBook':
-    case 'WaitFree':
-    case 'TodayNewBook':
-    case 'NewSerialBook': {
-      return (
-        <SelectionBook
-          slug={slug}
-          items={section.items}
-          title={title}
-          genre={genre}
-          type={section.type}
-          extra={extra}
-        />
-      );
-    }
-    case 'BestSeller':
-      return (
-        <RankingBookList
-          slug={slug}
-          items={section.items}
-          title={title}
-          genre={genre}
-          type="big"
-          showTimer={false}
-          extra={extra}
-        />
-      );
-    case 'HomeQuickMenu': {
-      return <QuickMenuList items={section.items} />;
-    }
-    case 'UserPreferredBestseller': {
-      return (
-        <UserPreferredSection
-          slug={slug}
-          items={section.items}
-          genre={genre}
-          type={section.type}
-        />
-      );
-    }
-    case 'AiRecommendation': {
-      return (
-        <AiRecommendationSection
-          slug={slug}
-          genre={genre}
-          type={section.type}
-          extra={extra}
-        />
-      );
-    }
-    case 'KeywordFinder': {
-      return (
-        <HomeKeywordFinderSection
-          genre={genre}
-          items={section.items}
-        />
-      );
-    }
-    case 'RecommendedBook': {
-      return (
-        <MultipleLineBooks
-          slug={slug}
-          genre={genre}
-          title={title}
-          items={section.items}
-        />
-      );
-    }
-    default:
-      return null;
-  }
+  };
+
+  return (
+    <>
+      {renderSection()}
+      {renderFreeWebtoon()}
+    </>
+  );
 }
 
 export const MemoHomeSectionRenderer: React.FunctionComponent<HomeSectionRendererProps> = React.memo(
