@@ -51,7 +51,7 @@ function HomeSectionRenderer(props: HomeSectionRendererProps) {
       && ((totalSectionLength >= 5 && order === 4)
         || (totalSectionLength < 5 && section.slug === 'home-webtoon-daily-bestseller'))
     ) {
-      return <FreeWebtoonSection />;
+      return <FreeWebtoonSection genre={genre} />;
     }
     return <></>;
   };

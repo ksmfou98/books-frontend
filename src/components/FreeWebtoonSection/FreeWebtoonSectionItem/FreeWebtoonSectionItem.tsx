@@ -1,14 +1,20 @@
 import React from 'react';
+import { useViewportIntersectionOnce } from 'src/hooks/useViewportIntersection';
+import { gtagEvent } from 'src/utils/event-tracker-ga4';
 import { FreeWebtoonSectionItemType } from '../typings';
 
 import { createFreeWebtoonSectionItemStyles } from './FreeWebtoonSectionItem.style';
 
 interface FreeWebtoonSectionItemProps {
   deviceType?: string;
+  genre: string;
   item: FreeWebtoonSectionItemType;
+  index: number;
 }
 
-export const FreeWebtoonSectionItem = ({ deviceType = 'mobile', item }: FreeWebtoonSectionItemProps): JSX.Element => {
+export const FreeWebtoonSectionItem = ({
+  deviceType = 'mobile', genre, item, index,
+}: FreeWebtoonSectionItemProps): JSX.Element => {
   const styles = React.useMemo(
     () => createFreeWebtoonSectionItemStyles({
       bgColor: item.effect.bg_color,
@@ -28,11 +34,24 @@ export const FreeWebtoonSectionItem = ({ deviceType = 'mobile', item }: FreeWebt
       </React.Fragment>
     ));
 
+  const ga4Params = {
+    carousel_id: item.id,
+    carousel_index: index,
+    carousel_landing_url: item.landing_url,
+    carousel_path: `/${genre}`,
+    carousel_title: item.effect.title,
+  };
+  const sendGA4Event = () => gtagEvent('genre_home_select_banner_nc', ga4Params);
+
+  const ref = useViewportIntersectionOnce<HTMLAnchorElement>(() => {
+    gtagEvent('genre_home_view_banner_nc', ga4Params);
+  });
+
   return (
     <div css={styles.wrapperStyle}>
       <div css={styles.sectionItemStyle}>
         <div css={styles.systemBoxStyle} />
-        <a href={item.landing_url} css={styles.imageBoxStyle}>
+        <a ref={ref} href={item.landing_url} css={styles.imageBoxStyle} onClick={sendGA4Event}>
           <div css={styles.backgroundStyle}>
             <img src={item.effect.bg_image_url} alt="무료웹툰 배경 이미지" css={styles.backgroundImageStyle} />
             {deviceType === 'pc' && (
@@ -46,10 +65,12 @@ export const FreeWebtoonSectionItem = ({ deviceType = 'mobile', item }: FreeWebt
         </a>
       </div>
       {deviceType !== 'pc' && (
-        <div css={styles.metaDataWrapperStyle}>
-          <p css={styles.phraseStyle}>{phrase}</p>
-          <p css={styles.titleStyle}>{item.effect.title}</p>
-        </div>
+        <a href={item.landing_url} onClick={sendGA4Event}>
+          <div css={styles.metaDataWrapperStyle}>
+            <p css={styles.phraseStyle}>{phrase}</p>
+            <p css={styles.titleStyle}>{item.effect.title}</p>
+          </div>
+        </a>
       )}
     </div>
   );

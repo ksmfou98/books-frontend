@@ -10,10 +10,21 @@ import { FreeWebtoonSectionItem } from './FreeWebtoonSectionItem/FreeWebtoonSect
 import { FreeWebtoonSectionMock } from './mockData';
 import { FreeWebtoonSectionItemType, FreeWebtoonSectionType } from './typings';
 
-export const FreeWebtoonSection = (): JSX.Element => {
+export interface FreeWebtoonSectionProps {
+  genre: string;
+}
+
+export const FreeWebtoonSection = ({ genre }: FreeWebtoonSectionProps): JSX.Element => {
   const { deviceType } = useDeviceType();
   const [isLoading, setIsLoading] = React.useState(false);
   const [sectionData, setSectionData] = React.useState<FreeWebtoonSectionType | null>(null);
+
+  const sectionTitleMargin: number = (() => {
+    if (deviceType === 'tablet' || deviceType === 'pc') {
+      return 25;
+    }
+    return 16;
+  })();
 
   const sectionMargin: number = (() => {
     if (deviceType === 'pc') {
@@ -25,7 +36,7 @@ export const FreeWebtoonSection = (): JSX.Element => {
     return 16;
   })();
 
-  const renderItem = (item: FreeWebtoonSectionItemType) => <FreeWebtoonSectionItem deviceType={deviceType} item={item} />;
+  const renderItem = (item: FreeWebtoonSectionItemType, index: number) => <FreeWebtoonSectionItem deviceType={deviceType} genre={genre} item={item} index={index} />;
 
   React.useEffect(() => {
     (async () => {
@@ -56,7 +67,7 @@ export const FreeWebtoonSection = (): JSX.Element => {
       )}
       {!isLoading && sectionData && (
         <>
-          <p css={styles.freeWebtoonSectionTitleStyle(sectionMargin)}>
+          <p css={styles.freeWebtoonSectionTitleStyle(sectionTitleMargin)}>
             <Monopoly css={styles.freeWebtoonSectionBadgeStyle} />
             {sectionData.title}
           </p>

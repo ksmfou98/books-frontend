@@ -15,7 +15,7 @@ function gtagConfig(...args: any[]) {
   gtag('config', GA4_KEY, ...args);
 }
 
-function gtagEvent(eventName: string, params: any) {
+export function gtagEvent(eventName: string, params: any) {
   gtag('event', eventName, params);
 }
 
@@ -48,8 +48,6 @@ export function initialize() {
     initialized = true;
   }
 }
-
-
 interface Item {
   item_id: string;
   item_name: string;
