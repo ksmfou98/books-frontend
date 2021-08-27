@@ -20,6 +20,7 @@ export const freeWebtoonSectionItemSystemBoxStyle = (bgColor: string, deviceType
   height: 100px;
   position: absolute;
   bottom: 0;
+  left: 0;
 
   background-color: ${bgColor};
 
