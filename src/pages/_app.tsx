@@ -180,7 +180,7 @@ class StoreApp extends App<StoreAppProps> {
             <AccountProvider>
               <NotificationProvider>
                 <ThemeProvider theme={defaultTheme}>
-                  <ViewportIntersectionProvider rootMargin="100px">
+                  <ViewportIntersectionProvider rootMargin="100px" threshold={0.5}>
                     <GlobalNavigationBar
                       searchKeyword={query.search || query.q}
                       isPartials={false}
