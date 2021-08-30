@@ -3,7 +3,7 @@ import { debounce } from 'src/utils/debounce';
 import FreeWebtoonArrowIndicator from 'src/svgs/FreeWebtoonArrowIndicator.svg';
 import * as styles from './ScrollSlider.style';
 
-export interface FreeWebtoonSliderProps<T> {
+export interface ScrollSliderProps<T> {
   deviceType?: string;
   horizontalMargin?: number;
   items: T[];
@@ -17,7 +17,7 @@ export default function ScrollSlider<T extends any>({
   items,
   renderItem,
   useTabletStyle = false,
-}: FreeWebtoonSliderProps<T>) {
+}: ScrollSliderProps<T>) {
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const frameRef = React.useRef<HTMLUListElement>(null);
 
