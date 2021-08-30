@@ -83,6 +83,7 @@ export const scrollSliderIndicatorWrapperStyle = css`
 
 export const scrollSliderButtonStyle = (
   direction: SliderDirection,
+  disable?: boolean,
 ): SerializedStyles => css`
   position: absolute;
   width: 30px;
@@ -101,6 +102,11 @@ export const scrollSliderButtonStyle = (
       right: -70px;
       transform: translateY(-50%);
     `}
+
+  ${disable && css`
+    opacity: 0.2;
+    pointer-events: none;
+  `}
 `;
 
 export const scrollSliderIndexIndicatorStyle = css`
