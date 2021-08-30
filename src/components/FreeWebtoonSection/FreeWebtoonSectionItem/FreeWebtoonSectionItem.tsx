@@ -53,7 +53,7 @@ export const FreeWebtoonSectionItem = ({
         <div css={styles.systemBoxStyle} />
         <a ref={ref} href={item.landing_url} css={styles.imageBoxStyle} onClick={sendGA4Event}>
           <div css={styles.backgroundStyle}>
-            <img src={item.effect.bg_image_url} alt="" css={styles.backgroundImageStyle} />
+            <img draggable={false} src={item.effect.bg_image_url} alt="" css={styles.backgroundImageStyle} />
             {deviceType === 'pc' && (
               <div css={styles.metaDataWrapperStyle}>
                 <p css={styles.phraseStyle}>{phrase}</p>
@@ -61,7 +61,7 @@ export const FreeWebtoonSectionItem = ({
               </div>
             )}
           </div>
-          <img src={item.image_url} alt={item.effect.title} css={styles.thumbnailImageStyle} />
+          <img draggable={false} src={item.image_url} alt={item.effect.title} css={styles.thumbnailImageStyle} />
         </a>
       </div>
       {deviceType !== 'pc' && (
