@@ -42,13 +42,15 @@ export const FreeWebtoonSection = ({ genre }: FreeWebtoonSectionProps): JSX.Elem
     (async () => {
       try {
         setIsLoading(true);
-        const requestUrl = '/v1/banners/web?tag=webtoon&path=/웹툰/추천&layout=banners/carousel';
+        const requestUrl = '/v1/banners/web?tag=webtoon&path=/웹툰/추천&layout=banners/carousel-extended';
         const { data } = await axios.get(requestUrl, {
-          baseURL: 'https://api.ridibooks.com',
+          baseURL: process.env.IS_PRODUCTION ? 'https://api.ridibooks.com' : 'https://api.dev.ridi.io',
           withCredentials: false,
           timeout: 8000,
         });
-        setSectionData(data);
+        const apiData = data as FreeWebtoonSectionType;
+        if (apiData.items.length > 0) setSectionData(data);
+        else setSectionData(null);
         setIsLoading(false);
       } catch (e) {
         // setSectionData(null);
