@@ -1,8 +1,6 @@
 import { css, SerializedStyles } from '@emotion/core';
+import { LEFT, RIGHT, SliderDirection } from './constant';
 
-export const LEFT = -1;
-export const RIGHT = 1;
-export type SliderDirection = typeof LEFT | typeof RIGHT;
 
 export const ITEM_MARGIN = 6;
 

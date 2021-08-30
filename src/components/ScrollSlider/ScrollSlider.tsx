@@ -2,6 +2,7 @@ import React from 'react';
 import { debounce } from 'src/utils/debounce';
 import FreeWebtoonArrowIndicator from 'src/svgs/FreeWebtoonArrowIndicator.svg';
 import * as styles from './ScrollSlider.style';
+import { LEFT, RIGHT, SliderDirection } from './constant';
 
 export interface ScrollSliderProps<T> {
   deviceType?: string;
@@ -37,21 +38,21 @@ export default function ScrollSlider<T extends any>({
     }
   })();
 
-  const leftButtonStyle = styles.scrollSliderButtonStyle(styles.LEFT);
-  const rightButtonStyle = styles.scrollSliderButtonStyle(styles.RIGHT);
+  const leftButtonStyle = styles.scrollSliderButtonStyle(LEFT);
+  const rightButtonStyle = styles.scrollSliderButtonStyle(RIGHT);
 
-  const onClickButton = (direction: styles.SliderDirection) => () => {
+  const onClickButton = (direction: SliderDirection) => () => {
     if (deviceType !== 'pc' || !frameRef.current) {
       return;
     }
     const frameNode = frameRef.current;
 
-    if (direction === styles.LEFT) {
+    if (direction === LEFT) {
       if (currentIndex > 0) {
         setCurrentIndex((prev: number) => prev - 1);
       }
     }
-    if (direction === styles.RIGHT) {
+    if (direction === RIGHT) {
       if (currentIndex < items.length - 1) {
         setCurrentIndex((prev: number) => prev + 1);
       }
@@ -120,10 +121,10 @@ export default function ScrollSlider<T extends any>({
       </ul>
       {deviceType === 'pc' && (
         <div css={styles.scrollSliderIndicatorWrapperStyle}>
-          <button aria-label="이전" type="button" css={leftButtonStyle} onClick={onClickButton(styles.LEFT)}>
+          <button aria-label="이전" type="button" css={leftButtonStyle} onClick={onClickButton(LEFT)}>
             <FreeWebtoonArrowIndicator />
           </button>
-          <button aria-label="다음" type="button" css={rightButtonStyle} onClick={onClickButton(styles.RIGHT)}>
+          <button aria-label="다음" type="button" css={rightButtonStyle} onClick={onClickButton(RIGHT)}>
             <FreeWebtoonArrowIndicator />
           </button>
           <div css={styles.scrollSliderIndexIndicatorStyle}>
