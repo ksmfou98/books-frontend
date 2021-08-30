@@ -99,7 +99,7 @@ export default function ScrollSlider<T extends any>({
     const frameNode = frameRef.current;
     const handleFrameScroll = debounce(() => {
       if (deviceType !== 'pc') {
-        const clientWidth = frameNode.clientWidth - 2 * (6 * 2) > 440 ? 440 : frameNode.clientWidth - 2 * (6 * 2);
+        const clientWidth = frameNode.clientWidth - 2 * (styles.ITEM_MARGIN * 2) > 440 ? 440 : frameNode.clientWidth - 2 * (styles.ITEM_MARGIN * 2);
         setCurrentIndex(Math.round(frameNode.scrollLeft / clientWidth));
       }
     }, 100);
