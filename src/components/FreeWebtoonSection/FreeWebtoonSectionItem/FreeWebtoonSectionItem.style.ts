@@ -79,6 +79,9 @@ export const freeWebtoonSectionItemThumbnailImageStyle = (deviceType?: string): 
 export const freeWebtoonSectionItemDataWrapperStyle = (deviceType?: string): SerializedStyles => css`
   ${deviceType === 'pc'
     && css`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     position: absolute;
     top: 50%;
     z-index: 3;
