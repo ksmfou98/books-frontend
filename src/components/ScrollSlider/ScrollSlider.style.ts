@@ -16,10 +16,6 @@ export const scrollSliderFrameStyle = css`
   overflow-x: scroll;
 `;
 
-export const scrollSliderScrollLockStyle = css`
-  overflow: hidden;
-`;
-
 export const scrollSliderItemBaseStyle = css`
   flex: 0 0 auto;
   min-height: 100px;

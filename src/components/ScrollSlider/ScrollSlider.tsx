@@ -132,7 +132,7 @@ export default function ScrollSlider<T extends any>({
     <div css={styles.scrollSliderWrapperStyle}>
       <ul
         ref={frameRef}
-        css={[styles.scrollSliderFrameStyle, styles.scrollBarHidden, deviceType === 'aaaa' && styles.scrollSliderScrollLockStyle]}
+        css={[styles.scrollSliderFrameStyle, styles.scrollBarHidden]}
         onTouchStart={onTouchStart}
       >
         {items.map((item, index) => (
