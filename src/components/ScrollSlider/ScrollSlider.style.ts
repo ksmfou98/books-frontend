@@ -12,7 +12,8 @@ export const scrollSliderWrapperStyle = css`
 export const scrollSliderFrameStyle = css`
   display: flex;
   flex-wrap: nowrap;
-  overflow: auto;
+  overflow-y: hidden;
+  overflow-x: scroll;
 `;
 
 export const scrollSliderScrollLockStyle = css`

@@ -20,6 +20,7 @@ export default function ScrollSlider<T extends any>({
   useTabletStyle = false,
 }: ScrollSliderProps<T>) {
   const [currentIndex, setCurrentIndex] = React.useState(0);
+  const touchRef = React.useRef<boolean>(false);
   const frameRef = React.useRef<HTMLUListElement>(null);
 
   const itemStyle = (() => {
@@ -59,6 +60,10 @@ export default function ScrollSlider<T extends any>({
       left: frameNode.clientWidth * (currentIndex + direction),
       behavior: 'smooth',
     });
+  };
+
+  const onTouchStart = () => {
+    touchRef.current = true;
   };
 
   React.useEffect(() => {
@@ -103,6 +108,19 @@ export default function ScrollSlider<T extends any>({
           : frameNode.clientWidth - 2 * (styles.ITEM_MARGIN * 2);
         setCurrentIndex(Math.round(frameNode.scrollLeft / clientWidth));
       }
+
+      if (touchRef.current && deviceType === 'pc') {
+        const scrollDistance = (frameNode.scrollLeft / frameNode.clientWidth);
+        const scrollDistanceInt = Math.floor(scrollDistance);
+        const offset = (scrollDistance - scrollDistanceInt) >= 0.7 ? 1 : 0;
+        const nextIndex = scrollDistanceInt + offset;
+
+        frameNode.scrollTo({
+          left: nextIndex * frameNode.clientWidth,
+          behavior: 'smooth',
+        });
+        setCurrentIndex(nextIndex);
+      }
     }, 100);
 
     frameNode.addEventListener('scroll', handleFrameScroll);
@@ -114,7 +132,8 @@ export default function ScrollSlider<T extends any>({
     <div css={styles.scrollSliderWrapperStyle}>
       <ul
         ref={frameRef}
-        css={[styles.scrollSliderFrameStyle, styles.scrollBarHidden, deviceType === 'pc' && styles.scrollSliderScrollLockStyle]}
+        css={[styles.scrollSliderFrameStyle, styles.scrollBarHidden, deviceType === 'aaaa' && styles.scrollSliderScrollLockStyle]}
+        onTouchStart={onTouchStart}
       >
         {items.map((item, index) => (
           <li key={JSON.stringify(item)} css={itemStyle}>
