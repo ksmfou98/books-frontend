@@ -39,7 +39,9 @@ export const scrollSliderItemMobileStyle = (
     margin-left: ${horizontalMargin}px;
   }
   &:last-of-type {
-    margin-right: ${horizontalMargin}px;
+    padding-right: ${horizontalMargin}px;
+    box-sizing: content-box;
+    margin-right: 0px;
   }
 `;
 
