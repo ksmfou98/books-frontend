@@ -128,22 +128,26 @@ export default function ScrollSlider<T extends any>({
       </ul>
       {deviceType === 'pc' && (
         <div css={styles.scrollSliderIndicatorWrapperStyle}>
-          <button
-            aria-label="이전"
-            type="button"
-            css={leftButtonStyle}
-            onClick={onClickButton(LEFT)}
-          >
-            <FreeWebtoonArrowIndicator />
-          </button>
-          <button
-            aria-label="다음"
-            type="button"
-            css={rightButtonStyle}
-            onClick={onClickButton(RIGHT)}
-          >
-            <FreeWebtoonArrowIndicator />
-          </button>
+          {currentIndex > 0 && (
+            <button
+              aria-label="이전"
+              type="button"
+              css={leftButtonStyle}
+              onClick={onClickButton(LEFT)}
+            >
+              <FreeWebtoonArrowIndicator />
+            </button>
+          )}
+          {currentIndex < items.length - 1 && (
+            <button
+              aria-label="다음"
+              type="button"
+              css={rightButtonStyle}
+              onClick={onClickButton(RIGHT)}
+            >
+              <FreeWebtoonArrowIndicator />
+            </button>
+          )}
           <div css={styles.scrollSliderIndexIndicatorStyle}>
             <span css={styles.scrollSliderCurrentIndexStyle}>{currentIndex + 1}</span>
             <span css={styles.scrollSliderIndexStyle}>
