@@ -61,17 +61,16 @@ export const FreeWebtoonSection = ({ genre }: FreeWebtoonSectionProps): JSX.Elem
   }, []);
 
   return (
-    <section css={styles.freeWebtoonSectionStyle(deviceType)}>
+    <>
       {isLoading && sectionData === null && (
         <></>
       )}
       {!isLoading && sectionData && (
-        <>
+        <section css={styles.freeWebtoonSectionStyle(deviceType)}>
           <p css={styles.freeWebtoonSectionTitleStyle(sectionTitleMargin)}>
             <Monopoly css={styles.freeWebtoonSectionBadgeStyle} />
             {sectionData.title}
           </p>
-
           <ScrollSlider
             deviceType={deviceType}
             horizontalMargin={sectionMargin}
@@ -79,8 +78,10 @@ export const FreeWebtoonSection = ({ genre }: FreeWebtoonSectionProps): JSX.Elem
             renderItem={renderItem}
             useTabletStyle
           />
-        </>
+        </section>
       )}
-    </section>
+    </>
+
+
   );
 };

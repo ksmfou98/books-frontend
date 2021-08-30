@@ -1,12 +1,16 @@
 import { css, SerializedStyles } from '@emotion/core';
 
 export const freeWebtoonSectionStyle = (deviceType?: string): SerializedStyles => css`
-  margin: 12px auto 0;
+  ${deviceType === 'pc'
+    && css`
+      margin: 24px auto;
+  `};
 
   ${deviceType !== 'pc'
-  && css`
-    max-width: 1000px;
-  `}
+    && css`
+      margin: 16px auto;
+      max-width: 1000px;
+  `};
 `;
 
 export const freeWebtoonSectionTitleStyle = (sectionMargin: number): SerializedStyles => css`
