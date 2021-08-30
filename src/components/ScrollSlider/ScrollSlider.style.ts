@@ -85,17 +85,20 @@ export const scrollSliderButtonStyle = (
   direction: SliderDirection,
 ): SerializedStyles => css`
   position: absolute;
+  width: 30px;
+  height: 30px;
   top: 50%;
+
   pointer-events: auto;
 
   ${direction === LEFT
     && css`
-      left: -50px;
+      left: -70px;
       transform: rotate(180deg) translateY(50%);
     `}
   ${direction === RIGHT
     && css`
-      right: -90px;
+      right: -70px;
       transform: translateY(-50%);
     `}
 `;

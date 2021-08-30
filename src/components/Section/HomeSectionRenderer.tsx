@@ -31,7 +31,6 @@ function HomeSectionRenderer(props: HomeSectionRendererProps) {
     order,
     totalSectionLength,
   } = props;
-  console.log(section.slug, order);
   if (!section.items) {
     // 사파리 disk cache 된 섹션 정보가 호출 될 때
     // 특정섹션에 items 필드가 자체가 존재하지 않는 경우를 방어합니다.
