@@ -65,14 +65,6 @@ export default function ScrollSlider<T extends any>({
     });
   };
 
-  const preventScrollOnDesktop = (e: React.UIEvent<HTMLUListElement>) => {
-    console.log('scroll');
-    if (deviceType === 'pc') {
-      e.preventDefault();
-      return false;
-    }
-  };
-
   React.useEffect(() => {
     const throttleRaf = (callback: () => void) => {
       let rafTimeout: number | null = null;
@@ -126,8 +118,7 @@ export default function ScrollSlider<T extends any>({
     <div css={styles.scrollSliderWrapperStyle}>
       <ul
         ref={frameRef}
-        css={[frameStyle, styles.scrollBarHidden]}
-        onScroll={preventScrollOnDesktop}
+        css={[frameStyle, styles.scrollBarHidden, deviceType === 'pc' && styles.scrollSliderScrollLockStyle]}
       >
         {items.map((item, index) => (
           <li key={JSON.stringify(item)} css={itemStyle}>

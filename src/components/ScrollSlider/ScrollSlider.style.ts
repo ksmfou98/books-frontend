@@ -14,6 +14,10 @@ export const scrollSliderFrameStyle = css`
   overflow: auto;
 `;
 
+export const scrollSliderScrollLockStyle = css`
+  overflow: hidden;
+`;
+
 export const scrollSliderFrameTabletStyle = css`
   ${scrollSliderFrameStyle}
   padding-right: 60px;
