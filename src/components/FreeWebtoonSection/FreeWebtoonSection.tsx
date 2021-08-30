@@ -33,7 +33,7 @@ export const FreeWebtoonSection = ({ genre }: FreeWebtoonSectionProps): JSX.Elem
     if (deviceType === 'tablet') {
       return 25;
     }
-    return 16;
+    return 12;
   })();
 
   const renderItem = (item: FreeWebtoonSectionItemType, index: number) => <FreeWebtoonSectionItem deviceType={deviceType} genre={genre} item={item} index={index} />;
