@@ -1,7 +1,7 @@
 import { css, SerializedStyles } from '@emotion/core';
 import { LEFT, RIGHT, SliderDirection } from './constant';
 
-
+export const IMAGE_BOX_WIDTH = 440;
 export const ITEM_MARGIN = 6;
 
 export const scrollSliderWrapperStyle = css`
@@ -29,7 +29,7 @@ export const scrollSliderItemMobileStyle = (
 ): SerializedStyles => css`
   ${scrollSliderItemBaseStyle}
   width: calc(100vw - 2 * ${ITEM_MARGIN * 2}px);
-  max-width: 440px;
+  max-width: ${IMAGE_BOX_WIDTH}px;
   margin-right: ${ITEM_MARGIN}px;
   &:first-of-type {
     margin-left: ${horizontalMargin}px;
@@ -44,7 +44,7 @@ export const scrollSliderItemTabletStyle = (
 ): SerializedStyles => css`
   ${scrollSliderItemBaseStyle}
   width: calc(100vw - 2 * ${ITEM_MARGIN * 2}px);
-  max-width: 440px;
+  max-width: ${IMAGE_BOX_WIDTH}px;
   margin-right: ${ITEM_MARGIN}px;
   &:first-of-type {
     margin-left: ${horizontalMargin}px;
@@ -69,7 +69,7 @@ export const scrollSliderIndicatorWrapperStyle = css`
   transform: translateX(-50%);
   left: 50%;
   width: 100%;
-  max-width: 440px;
+  max-width: ${IMAGE_BOX_WIDTH}px;
   height: 100px;
   z-index: 8000;
   pointer-events: none;

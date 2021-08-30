@@ -22,7 +22,9 @@ export default function ScrollSlider<T extends any>({
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const frameRef = React.useRef<HTMLUListElement>(null);
 
-  const frameStyle = deviceType === 'tablet' ? styles.scrollSliderFrameTabletStyle : styles.scrollSliderFrameStyle;
+  const frameStyle = deviceType === 'tablet'
+    ? styles.scrollSliderFrameTabletStyle
+    : styles.scrollSliderFrameStyle;
 
   const itemStyle = (() => {
     switch (deviceType) {
@@ -63,6 +65,14 @@ export default function ScrollSlider<T extends any>({
     });
   };
 
+  const preventScrollOnDesktop = (e: React.UIEvent<HTMLUListElement>) => {
+    console.log('scroll');
+    if (deviceType === 'pc') {
+      e.preventDefault();
+      return false;
+    }
+  };
+
   React.useEffect(() => {
     const throttleRaf = (callback: () => void) => {
       let rafTimeout: number | null = null;
@@ -100,7 +110,9 @@ export default function ScrollSlider<T extends any>({
     const frameNode = frameRef.current;
     const handleFrameScroll = debounce(() => {
       if (deviceType !== 'pc') {
-        const clientWidth = frameNode.clientWidth - 2 * (styles.ITEM_MARGIN * 2) > 440 ? 440 : frameNode.clientWidth - 2 * (styles.ITEM_MARGIN * 2);
+        const clientWidth = frameNode.clientWidth - 2 * (styles.ITEM_MARGIN * 2) > styles.IMAGE_BOX_WIDTH
+          ? styles.IMAGE_BOX_WIDTH
+          : frameNode.clientWidth - 2 * (styles.ITEM_MARGIN * 2);
         setCurrentIndex(Math.round(frameNode.scrollLeft / clientWidth));
       }
     }, 100);
@@ -112,7 +124,11 @@ export default function ScrollSlider<T extends any>({
 
   return (
     <div css={styles.scrollSliderWrapperStyle}>
-      <ul ref={frameRef} css={[frameStyle, styles.scrollBarHidden]}>
+      <ul
+        ref={frameRef}
+        css={[frameStyle, styles.scrollBarHidden]}
+        onScroll={preventScrollOnDesktop}
+      >
         {items.map((item, index) => (
           <li key={JSON.stringify(item)} css={itemStyle}>
             {renderItem(item, index)}
@@ -121,15 +137,28 @@ export default function ScrollSlider<T extends any>({
       </ul>
       {deviceType === 'pc' && (
         <div css={styles.scrollSliderIndicatorWrapperStyle}>
-          <button aria-label="이전" type="button" css={leftButtonStyle} onClick={onClickButton(LEFT)}>
+          <button
+            aria-label="이전"
+            type="button"
+            css={leftButtonStyle}
+            onClick={onClickButton(LEFT)}
+          >
             <FreeWebtoonArrowIndicator />
           </button>
-          <button aria-label="다음" type="button" css={rightButtonStyle} onClick={onClickButton(RIGHT)}>
+          <button
+            aria-label="다음"
+            type="button"
+            css={rightButtonStyle}
+            onClick={onClickButton(RIGHT)}
+          >
             <FreeWebtoonArrowIndicator />
           </button>
           <div css={styles.scrollSliderIndexIndicatorStyle}>
             <span css={styles.scrollSliderCurrentIndexStyle}>{currentIndex + 1}</span>
-            <span css={styles.scrollSliderIndexStyle}>{`/${items.length}`}</span>
+            <span css={styles.scrollSliderIndexStyle}>
+              /
+              {items.length}
+            </span>
           </div>
         </div>
       )}
