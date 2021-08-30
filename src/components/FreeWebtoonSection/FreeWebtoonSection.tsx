@@ -2,7 +2,7 @@ import React from 'react';
 import { useDeviceType } from 'src/hooks/useDeviceType';
 
 import Monopoly from 'src/svgs/Monopoly.svg';
-import axios, { CancelToken } from 'src/utils/axios';
+import axios from 'src/utils/axios';
 import ScrollSlider from '../ScrollSlider/ScrollSlider';
 
 import * as styles from './FreeWebtoonSection.style';
@@ -40,7 +40,6 @@ export const FreeWebtoonSection = ({ genre }: FreeWebtoonSectionProps): JSX.Elem
 
   React.useEffect(() => {
     (async () => {
-      const source = CancelToken.source();
       try {
         setIsLoading(true);
         const requestUrl = '/v1/banners/web?tag=webtoon&path=/웹툰/추천&layout=banners/carousel';
@@ -48,7 +47,6 @@ export const FreeWebtoonSection = ({ genre }: FreeWebtoonSectionProps): JSX.Elem
           baseURL: 'https://api.ridibooks.com',
           withCredentials: false,
           timeout: 8000,
-          cancelToken: source.token,
         });
         setSectionData(data);
         setIsLoading(false);
