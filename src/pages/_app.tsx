@@ -25,6 +25,8 @@ import { AccountProvider } from 'src/hooks/useAccount';
 import { NotificationProvider } from 'src/hooks/useNotification';
 import { initialize as initializeEventTracker } from 'src/utils/event-tracker';
 
+import smoothscroll from 'smoothscroll-polyfill';
+
 interface StoreAppProps {
   // tslint:disable-next-line
   pageProps: any;
@@ -67,6 +69,7 @@ class StoreApp extends App<StoreAppProps> {
   }
 
   public async componentDidMount() {
+    smoothscroll.polyfill();
     const isPartials = this.props.router.pathname
       .toLowerCase()
       .startsWith('/partials/');
@@ -180,7 +183,7 @@ class StoreApp extends App<StoreAppProps> {
             <AccountProvider>
               <NotificationProvider>
                 <ThemeProvider theme={defaultTheme}>
-                  <ViewportIntersectionProvider rootMargin="100px">
+                  <ViewportIntersectionProvider rootMargin="100px" threshold={0.5}>
                     <GlobalNavigationBar
                       searchKeyword={query.search || query.q}
                       isPartials={false}
