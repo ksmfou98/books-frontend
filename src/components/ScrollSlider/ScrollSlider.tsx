@@ -22,10 +22,6 @@ export default function ScrollSlider<T extends any>({
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const frameRef = React.useRef<HTMLUListElement>(null);
 
-  const frameStyle = deviceType === 'tablet'
-    ? styles.scrollSliderFrameTabletStyle
-    : styles.scrollSliderFrameStyle;
-
   const itemStyle = (() => {
     switch (deviceType) {
       case 'pc':
@@ -118,7 +114,7 @@ export default function ScrollSlider<T extends any>({
     <div css={styles.scrollSliderWrapperStyle}>
       <ul
         ref={frameRef}
-        css={[frameStyle, styles.scrollBarHidden, deviceType === 'pc' && styles.scrollSliderScrollLockStyle]}
+        css={[styles.scrollSliderFrameStyle, styles.scrollBarHidden, deviceType === 'pc' && styles.scrollSliderScrollLockStyle]}
       >
         {items.map((item, index) => (
           <li key={JSON.stringify(item)} css={itemStyle}>

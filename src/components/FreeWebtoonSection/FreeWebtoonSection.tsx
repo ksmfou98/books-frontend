@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDeviceType } from 'src/hooks/useDeviceType';
+import { getRawDeviceType } from 'src/hooks/useDeviceType';
 
 import Monopoly from 'src/svgs/Monopoly.svg';
 import axios from 'src/utils/axios';
@@ -15,7 +15,7 @@ export interface FreeWebtoonSectionProps {
 }
 
 export const FreeWebtoonSection = ({ genre }: FreeWebtoonSectionProps): JSX.Element => {
-  const { deviceType } = useDeviceType();
+  const deviceType = getRawDeviceType();
   const [isLoading, setIsLoading] = React.useState(false);
   const [sectionData, setSectionData] = React.useState<FreeWebtoonSectionType | null>(null);
 

@@ -1,6 +1,7 @@
 import { css, SerializedStyles } from '@emotion/core';
 import { LEFT, RIGHT, SliderDirection } from './constant';
 
+const TABLET_LAST_TYPE_PADDING = 48;
 export const IMAGE_BOX_WIDTH = 440;
 export const ITEM_MARGIN = 6;
 
@@ -16,11 +17,6 @@ export const scrollSliderFrameStyle = css`
 
 export const scrollSliderScrollLockStyle = css`
   overflow: hidden;
-`;
-
-export const scrollSliderFrameTabletStyle = css`
-  ${scrollSliderFrameStyle}
-  padding-right: 60px;
 `;
 
 export const scrollSliderItemBaseStyle = css`
@@ -56,7 +52,9 @@ export const scrollSliderItemTabletStyle = (
     margin-left: ${horizontalMargin}px;
   }
   &:last-of-type {
+    box-sizing: content-box;
     margin-right: 0;
+    padding-right: ${TABLET_LAST_TYPE_PADDING}px;
   }
 `;
 
