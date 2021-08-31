@@ -20,7 +20,6 @@ export default function ScrollSlider<T extends any>({
   useTabletStyle = false,
 }: ScrollSliderProps<T>) {
   const [currentIndex, setCurrentIndex] = React.useState(0);
-  const touchRef = React.useRef<boolean>(false);
   const frameRef = React.useRef<HTMLUListElement>(null);
 
   const itemStyle = (() => {
@@ -62,10 +61,6 @@ export default function ScrollSlider<T extends any>({
     });
   };
 
-  const onTouchStart = () => {
-    touchRef.current = true;
-  };
-
   React.useEffect(() => {
     const throttleRaf = (callback: () => void) => {
       let rafTimeout: number | null = null;
@@ -96,44 +91,34 @@ export default function ScrollSlider<T extends any>({
     return () => window.removeEventListener('resize', handleResize);
   }, [currentIndex]);
 
-  React.useEffect(() => {
-    if (!frameRef.current) {
-      return () => {};
-    }
+  const handleFrameScroll = debounce(() => {
+    if (!frameRef.current) return;
     const frameNode = frameRef.current;
-    const handleFrameScroll = debounce(() => {
-      if (deviceType !== 'pc') {
-        const clientWidth = frameNode.clientWidth - 2 * (styles.ITEM_MARGIN * 2) > styles.IMAGE_BOX_WIDTH
-          ? styles.IMAGE_BOX_WIDTH
-          : frameNode.clientWidth - 2 * (styles.ITEM_MARGIN * 2);
-        setCurrentIndex(Math.round(frameNode.scrollLeft / clientWidth));
-      }
+    if (deviceType !== 'pc') {
+      const clientWidth = frameNode.clientWidth - 2 * (styles.ITEM_MARGIN * 2) > styles.IMAGE_BOX_WIDTH
+        ? styles.IMAGE_BOX_WIDTH
+        : frameNode.clientWidth - 2 * (styles.ITEM_MARGIN * 2);
+      setCurrentIndex(Math.round(frameNode.scrollLeft / clientWidth));
+    } else {
+      const scrollDistance = (frameNode.scrollLeft / frameNode.clientWidth);
+      const scrollDistanceInt = Math.floor(scrollDistance);
+      const offset = (scrollDistance - scrollDistanceInt) >= 0.5 ? 1 : 0;
+      const nextIndex = scrollDistanceInt + offset;
 
-      if (touchRef.current && deviceType === 'pc') {
-        const scrollDistance = (frameNode.scrollLeft / frameNode.clientWidth);
-        const scrollDistanceInt = Math.floor(scrollDistance);
-        const offset = (scrollDistance - scrollDistanceInt) >= 0.7 ? 1 : 0;
-        const nextIndex = scrollDistanceInt + offset;
-
-        frameNode.scrollTo({
-          left: nextIndex * frameNode.clientWidth,
-          behavior: 'smooth',
-        });
-        setCurrentIndex(nextIndex);
-      }
-    }, 100);
-
-    frameNode.addEventListener('scroll', handleFrameScroll);
-
-    return () => frameNode.removeEventListener('scroll', handleFrameScroll);
-  }, [deviceType]);
+      frameNode.scrollTo({
+        left: nextIndex * frameNode.clientWidth,
+        behavior: 'smooth',
+      });
+      setCurrentIndex(nextIndex);
+    }
+  }, 100);
 
   return (
     <div css={styles.scrollSliderWrapperStyle}>
       <ul
         ref={frameRef}
         css={[styles.scrollSliderFrameStyle, styles.scrollBarHidden]}
-        onTouchStart={onTouchStart}
+        onScroll={handleFrameScroll}
       >
         {items.map((item, index) => (
           <li key={JSON.stringify(item)} css={itemStyle}>
