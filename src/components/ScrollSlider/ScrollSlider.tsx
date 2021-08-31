@@ -20,6 +20,7 @@ export default function ScrollSlider<T extends any>({
   useTabletStyle = false,
 }: ScrollSliderProps<T>) {
   const [currentIndex, setCurrentIndex] = React.useState(0);
+  const onClickRef = React.useRef<boolean>(false);
   const frameRef = React.useRef<HTMLUListElement>(null);
 
   const itemStyle = (() => {
@@ -43,6 +44,7 @@ export default function ScrollSlider<T extends any>({
     if (deviceType !== 'pc' || !frameRef.current) {
       return;
     }
+
     const frameNode = frameRef.current;
 
     if (direction === LEFT) {
@@ -55,6 +57,7 @@ export default function ScrollSlider<T extends any>({
         setCurrentIndex((prev: number) => prev + 1);
       }
     }
+    onClickRef.current = true;
     frameNode.scrollTo({
       left: frameNode.clientWidth * (currentIndex + direction),
       behavior: 'smooth',
@@ -93,6 +96,12 @@ export default function ScrollSlider<T extends any>({
 
   const handleFrameScroll = debounce(() => {
     if (!frameRef.current) return;
+
+    if (onClickRef.current) {
+      onClickRef.current = false;
+      return;
+    }
+
     const frameNode = frameRef.current;
     if (deviceType !== 'pc') {
       const clientWidth = frameNode.clientWidth - 2 * (styles.ITEM_MARGIN * 2) > styles.IMAGE_BOX_WIDTH
