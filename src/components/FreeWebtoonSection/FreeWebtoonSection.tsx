@@ -7,7 +7,6 @@ import ScrollSlider from '../ScrollSlider/ScrollSlider';
 
 import * as styles from './FreeWebtoonSection.style';
 import { FreeWebtoonSectionItem } from './FreeWebtoonSectionItem/FreeWebtoonSectionItem';
-import { FreeWebtoonSectionMock } from './mockData';
 import { FreeWebtoonSectionItemType, FreeWebtoonSectionType } from './typings';
 
 export interface FreeWebtoonSectionProps {
@@ -53,8 +52,7 @@ export const FreeWebtoonSection = ({ genre }: FreeWebtoonSectionProps): JSX.Elem
         else setSectionData(null);
         setIsLoading(false);
       } catch (e) {
-        // setSectionData(null);
-        setSectionData(FreeWebtoonSectionMock);
+        setSectionData(null);
         setIsLoading(false);
       }
     })();
