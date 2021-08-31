@@ -99,9 +99,7 @@ export default function ScrollSlider<T extends any>({
         ? styles.IMAGE_BOX_WIDTH
         : frameNode.clientWidth - 2 * (styles.ITEM_MARGIN * 2);
       setCurrentIndex(Math.round(frameNode.scrollLeft / clientWidth));
-    }
-
-    if (deviceType === 'pc') {
+    } else {
       const scrollDistance = (frameNode.scrollLeft / frameNode.clientWidth);
       const scrollDistanceInt = Math.floor(scrollDistance);
       const offset = (scrollDistance - scrollDistanceInt) >= 0.5 ? 1 : 0;
