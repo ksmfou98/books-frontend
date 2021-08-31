@@ -47,9 +47,12 @@ export const FreeWebtoonSection = ({ genre }: FreeWebtoonSectionProps): JSX.Elem
           withCredentials: false,
           timeout: 8000,
         });
-        const apiData = data as FreeWebtoonSectionType;
-        if (apiData.items.length > 0) setSectionData(data);
-        else setSectionData(null);
+
+        if (!data || !data.items || data.items.length <= 0) {
+          setSectionData(null);
+        } else {
+          setSectionData(data);
+        }
         setIsLoading(false);
       } catch (e) {
         setSectionData(null);
