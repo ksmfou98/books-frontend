@@ -20,7 +20,6 @@ export default function ScrollSlider<T extends any>({
   useTabletStyle = false,
 }: ScrollSliderProps<T>) {
   const [currentIndex, setCurrentIndex] = React.useState(0);
-  const touchRef = React.useRef<boolean>(false);
   const frameRef = React.useRef<HTMLUListElement>(null);
 
   const itemStyle = (() => {
@@ -60,10 +59,6 @@ export default function ScrollSlider<T extends any>({
       left: frameNode.clientWidth * (currentIndex + direction),
       behavior: 'smooth',
     });
-  };
-
-  const onTouchStart = () => {
-    touchRef.current = true;
   };
 
   React.useEffect(() => {
@@ -126,7 +121,6 @@ export default function ScrollSlider<T extends any>({
         ref={frameRef}
         css={[styles.scrollSliderFrameStyle, styles.scrollBarHidden]}
         onScroll={handleFrameScroll}
-        onTouchStart={onTouchStart}
       >
         {items.map((item, index) => (
           <li key={JSON.stringify(item)} css={itemStyle}>
