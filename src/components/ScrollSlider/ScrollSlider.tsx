@@ -20,6 +20,7 @@ export default function ScrollSlider<T extends any>({
   useTabletStyle = false,
 }: ScrollSliderProps<T>) {
   const [currentIndex, setCurrentIndex] = React.useState(0);
+  const onClickRef = React.useRef<boolean>(false);
   const frameRef = React.useRef<HTMLUListElement>(null);
 
   const itemStyle = (() => {
@@ -28,11 +29,11 @@ export default function ScrollSlider<T extends any>({
         return styles.scrollSliderItemDesktopStyle(horizontalMargin);
       case 'tablet':
         return useTabletStyle
-          ? styles.scrollSliderItemTabletStyle(horizontalMargin)
-          : styles.scrollSliderItemMobileStyle(horizontalMargin);
+          ? styles.scrollSliderItemTabletStyle(horizontalMargin, items.length)
+          : styles.scrollSliderItemMobileStyle(horizontalMargin, items.length);
       case 'mobile':
       default:
-        return styles.scrollSliderItemMobileStyle(horizontalMargin);
+        return styles.scrollSliderItemMobileStyle(horizontalMargin, items.length);
     }
   })();
 
@@ -43,6 +44,7 @@ export default function ScrollSlider<T extends any>({
     if (deviceType !== 'pc' || !frameRef.current) {
       return;
     }
+
     const frameNode = frameRef.current;
 
     if (direction === LEFT) {
@@ -55,6 +57,7 @@ export default function ScrollSlider<T extends any>({
         setCurrentIndex((prev: number) => prev + 1);
       }
     }
+    onClickRef.current = true;
     frameNode.scrollTo({
       left: frameNode.clientWidth * (currentIndex + direction),
       behavior: 'smooth',
@@ -93,6 +96,12 @@ export default function ScrollSlider<T extends any>({
 
   const handleFrameScroll = debounce(() => {
     if (!frameRef.current) return;
+
+    if (onClickRef.current) {
+      onClickRef.current = false;
+      return;
+    }
+
     const frameNode = frameRef.current;
     if (deviceType !== 'pc') {
       const clientWidth = frameNode.clientWidth - 2 * (styles.ITEM_MARGIN * 2) > styles.IMAGE_BOX_WIDTH
@@ -126,7 +135,7 @@ export default function ScrollSlider<T extends any>({
           </li>
         ))}
       </ul>
-      {deviceType === 'pc' && (
+      {deviceType === 'pc' && items.length > 1 && (
         <div css={styles.scrollSliderIndicatorWrapperStyle}>
           <button
             aria-label="이전"

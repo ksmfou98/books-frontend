@@ -23,10 +23,11 @@ export const scrollSliderItemBaseStyle = css`
 
 export const scrollSliderItemMobileStyle = (
   horizontalMargin = 0,
+  itemsLength: number,
 ): SerializedStyles => css`
   ${scrollSliderItemBaseStyle}
   width: calc(100vw - 2 * ${ITEM_MARGIN * 2}px);
-  max-width: ${IMAGE_BOX_WIDTH}px;
+  max-width: ${itemsLength > 1 ? `${IMAGE_BOX_WIDTH}px` : '100vw'};
   margin-right: ${ITEM_MARGIN}px;
   &:first-of-type {
     margin-left: ${horizontalMargin}px;
@@ -40,10 +41,11 @@ export const scrollSliderItemMobileStyle = (
 
 export const scrollSliderItemTabletStyle = (
   horizontalMargin = 0,
+  itemsLength: number,
 ): SerializedStyles => css`
   ${scrollSliderItemBaseStyle}
   width: calc(100vw - 2 * ${ITEM_MARGIN * 2}px);
-  max-width: ${IMAGE_BOX_WIDTH}px;
+  max-width: ${itemsLength > 1 ? `${IMAGE_BOX_WIDTH}px` : '100vw'};
   margin-right: ${ITEM_MARGIN}px;
   &:first-of-type {
     margin-left: ${horizontalMargin}px;
