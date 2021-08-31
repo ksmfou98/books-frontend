@@ -28,11 +28,11 @@ export default function ScrollSlider<T extends any>({
         return styles.scrollSliderItemDesktopStyle(horizontalMargin);
       case 'tablet':
         return useTabletStyle
-          ? styles.scrollSliderItemTabletStyle(horizontalMargin)
-          : styles.scrollSliderItemMobileStyle(horizontalMargin);
+          ? styles.scrollSliderItemTabletStyle(horizontalMargin, items.length)
+          : styles.scrollSliderItemMobileStyle(horizontalMargin, items.length);
       case 'mobile':
       default:
-        return styles.scrollSliderItemMobileStyle(horizontalMargin);
+        return styles.scrollSliderItemMobileStyle(horizontalMargin, items.length);
     }
   })();
 
@@ -126,7 +126,7 @@ export default function ScrollSlider<T extends any>({
           </li>
         ))}
       </ul>
-      {deviceType === 'pc' && (
+      {deviceType === 'pc' && items.length > 1 && (
         <div css={styles.scrollSliderIndicatorWrapperStyle}>
           <button
             aria-label="이전"
