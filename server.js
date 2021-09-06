@@ -2,6 +2,7 @@ const serverless = require('serverless-http');
 const next = require('next');
 const Koa = require('koa');
 const Router = require('@koa/router');
+const AccessLog = require('koa-accesslog');
 
 const port = parseInt(process.env.PORT, 10) || 8081;
 const dev = process.env.NODE_ENV !== 'production';
@@ -21,6 +22,8 @@ server.use(async (ctx, next) => {
     await next();
   }
 });
+
+server.use(AccessLog());
 
 router.all("*", async ctx => {
   await handle(ctx.req, ctx.res);
