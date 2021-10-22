@@ -70,7 +70,7 @@ export const FooterMenu = () => (
             target="_blank"
             rel="noopener"
           >
-            <FooterMenuLabel>페이퍼 대량구매 안내</FooterMenuLabel>
+            <FooterMenuLabel>리디셀렉트 B2B</FooterMenuLabel>
           </StyledAnchor>
         </li>
       </FooterMenuSection>
